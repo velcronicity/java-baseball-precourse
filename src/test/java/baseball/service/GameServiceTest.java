@@ -11,7 +11,8 @@ class GameServiceTest {
     @DisplayName("사용자 입력값은 3자리 숫자, 1~9까지의 숫자만 유효하다")
     @Test
     void validateInputNoExceptionTest() {
-        GameService service = new GameService();
+        // TODO: 2022/09/30 꼭 null을 넣어줘야할까.. start 나 static method 로 생성하는 방법?? 
+        GameService service = new GameService(null);
 
         assertDoesNotThrow(() -> service.validateGameInput("123"));
         assertDoesNotThrow(() -> service.validateGameInput("456"));
@@ -21,7 +22,7 @@ class GameServiceTest {
     @DisplayName("사용자 입력값이 올바르지 않을 경우 IllegalArgumentException 던진다")
     @Test
     void validateInputTest() {
-        GameService service = new GameService();
+        GameService service = new GameService(null);
 
         assertThatThrownBy(() -> service.validateGameInput(null))
             .isInstanceOf(IllegalArgumentException.class)
@@ -38,6 +39,19 @@ class GameServiceTest {
         assertThatThrownBy(() -> service.validateGameInput("1234"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("input length is not 3");
+
+        // TODO: 2022/10/01 같은 숫자일 때 검증 추가
+    }
+
+    @DisplayName("입력값과 정답을 비교하여 힌트를 출력한다")
+    @Test
+    void confirmInput() {
+        GameService gameService = new GameService(new int[] {1, 2, 3});
+
+        assertThat(gameService.getHint("124")).isEqualTo("2스트라이크");
+        assertThat(gameService.getHint("321")).isEqualTo("2볼 1스트라이크");
+        assertThat(gameService.getHint("361")).isEqualTo("2볼");
+        assertThat(gameService.getHint("456")).isEqualTo("낫싱");
     }
 
 }
