@@ -1,10 +1,8 @@
 package baseball;
 
-import static baseball.service.GameService.*;
-import static baseball.service.GoStop.*;
+import static baseball.constant.GoStop.*;
 
-import baseball.service.GameService;
-import baseball.service.GoStop;
+import baseball.constant.GoStop;
 import baseball.service.ProgressService;
 import baseball.service.RandomService;
 
@@ -13,12 +11,8 @@ public class Application {
         RandomService randomService = new RandomService();
         GoStop goStop = GO;
         while (goStop == GO) {
-            ProgressService progressService = new ProgressService(makeNewGame(randomService));
+            ProgressService progressService = new ProgressService(randomService.pickNumber());
             goStop = progressService.start();
         }
-    }
-
-    private static GameService makeNewGame(RandomService randomService) {
-        return newGame(randomService.pickNumber());
     }
 }

@@ -1,78 +1,76 @@
 package baseball.service;
 
+import static baseball.constant.Message.*;
+
 public class GameService {
-
-    private final int[] answer;
-
-    private GameService(int[] answer) {
-        this.answer = answer;
-    }
-
-    public static GameService newGame(int[] answer) {
-        return new GameService(answer);
-    }
 
     public void validateGameInput(String gameInput) {
         if (gameInput == null)
-            throw new IllegalArgumentException("input is null");
+            throw new IllegalArgumentException(INPUT_IS_NULL_MESSAGE);
         if (gameInput.length() != 3)
-            throw new IllegalArgumentException("input length is not 3");
+            throw new IllegalArgumentException(INPUT_LENGTH_ERROR_MESSAGE);
         char[] inputArray = gameInput.toCharArray();
-        for (char eachNumber : inputArray) {
-            checkNumber(eachNumber);
-        }
-        if (inputArray[0] == inputArray[1] || inputArray[0] == inputArray[2] || inputArray[1] == inputArray[2])
-            throw new IllegalArgumentException("input number has to be different");
+        checkEachNumber(inputArray);
+        if (isDuplicate(inputArray))
+            throw new IllegalArgumentException(INPUT_NUMBER_DUPLICATE_MESSAGE);
     }
 
-    // TODO: 2022/10/01 리팩토링 
-    public String getHint(String input) {
-        int answer1 = answer[0];
-        int answer2 = answer[1];
-        int answer3 = answer[2];
-
-        char[] inputArray = input.toCharArray();
-        int input1 = inputArray[0] - '0';
-        int input2 = inputArray[1] - '0';
-        int input3 = inputArray[2] - '0';
-
-        int strikeCount = 0, ballCount = 0;
-
-        if (answer1 == input1)
-            strikeCount++;
-        if (answer2 == input2)
-            strikeCount++;
-        if (answer3 == input3)
-            strikeCount++;
-
-        if (input1 == answer2 || input1 == answer3)
-            ballCount++;
-        if (input2 == answer1 || input2 == answer3)
-            ballCount++;
-        if (input3 == answer1 || input3 == answer2)
-            ballCount++;
-
+    public String getHint(int[] gameInput, int[] answer) {
+        int strikeCount = getStrikeCount(gameInput, answer);
+        int ballCount = getBallCount(gameInput, answer);
         if (strikeCount == 0 && ballCount == 0)
-            return "낫싱";
+            return NOTHING_MESSAGE;
 
-        return (ballHint(ballCount) + strikeHint(strikeCount)).trim();
+        return makeHintMessage(ballCount, strikeCount);
     }
 
-    private String ballHint(int ballCount) {
-        if (ballCount == 0)
+    private void checkEachNumber(char[] number) {
+        for (char eachNumber : number) {
+            checkValidNumber(eachNumber);
+        }
+    }
+
+    private void checkValidNumber(char eachNumber) {
+        if (eachNumber < '1' || eachNumber > '9')
+            throw new IllegalArgumentException(INPUT_NOT_VALID_NUMBER_MESSAGE);
+    }
+
+    private boolean isDuplicate(char[] inputArray) {
+        return inputArray[0] == inputArray[1] || inputArray[0] == inputArray[2] || inputArray[1] == inputArray[2];
+    }
+
+    private int getStrikeCount(int[] gameInput, int[] answer) {
+        int strikeCount = 0;
+        if (answer[0] == gameInput[0])
+            strikeCount++;
+        if (answer[1] == gameInput[1])
+            strikeCount++;
+        if (answer[2] == gameInput[2])
+            strikeCount++;
+        return strikeCount;
+    }
+
+    private int getBallCount(int[] gameInput, int[] answer) {
+        int ballCount = 0;
+        if (gameInput[0] == answer[1] || gameInput[0] == answer[2])
+            ballCount++;
+        if (gameInput[1] == answer[0] || gameInput[1] == answer[2])
+            ballCount++;
+        if (gameInput[2] == answer[0] || gameInput[2] == answer[1])
+            ballCount++;
+        return ballCount;
+    }
+
+    private String makeHintMessage(int ballCount, int strikeCount) {
+        return String.format("%s %s",
+            makeBallStringHintMessage(ballCount, "볼"),
+            makeBallStringHintMessage(strikeCount, "스트라이크"))
+            .trim();
+    }
+
+    private String makeBallStringHintMessage(int count, String ballOrStrike) {
+        if (count == 0)
             return "";
-        return ballCount + "볼 ";
-    }
-
-    private String strikeHint(int strikeCount) {
-        if (strikeCount == 0)
-            return "";
-        return strikeCount + "스트라이크";
-    }
-
-    // TODO: 2022/09/30 private method 순서 확인
-    private void checkNumber(char number) {
-        if (number < '1' || number > '9')
-            throw new IllegalArgumentException("input should be number 1 to 9");
+        return String.format("%d%s", count, ballOrStrike);
     }
 }

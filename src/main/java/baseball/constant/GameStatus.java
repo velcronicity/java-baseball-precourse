@@ -1,4 +1,4 @@
-package baseball.service;
+package baseball.constant;
 
 public enum GameStatus {
 

@@ -1,4 +1,6 @@
-package baseball.service;
+package baseball.constant;
+
+import static baseball.constant.Message.*;
 
 public enum GoStop {
     GO("1"), STOP("2");
@@ -14,6 +16,6 @@ public enum GoStop {
             return GO;
         if (STOP.code.equals(input))
             return STOP;
-        throw new IllegalArgumentException("go stop input is not 1 or 2");
+        throw new IllegalArgumentException(GO_STOP_INPUT_NOT_VALID_MESSAGE);
     }
 }
