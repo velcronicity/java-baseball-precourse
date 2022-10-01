@@ -15,7 +15,7 @@ public class ProgressService {
 
     public ProgressService(int[] answer) {
         this.answer = answer;
-        this.gameService = new GameService();
+        this.gameService = GameService.getInstance();
     }
 
     public GoStop start() {

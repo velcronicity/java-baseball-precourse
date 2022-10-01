@@ -4,6 +4,15 @@ import static baseball.constant.Message.*;
 
 public class GameService {
 
+    private static final GameService instance = new GameService();
+
+    public static GameService getInstance() {
+        return instance;
+    }
+
+    private GameService() {
+    }
+
     public void validateGameInput(String gameInput) {
         if (gameInput == null)
             throw new IllegalArgumentException(INPUT_IS_NULL_MESSAGE);

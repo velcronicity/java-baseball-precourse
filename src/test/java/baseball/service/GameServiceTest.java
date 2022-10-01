@@ -12,7 +12,7 @@ class GameServiceTest {
     @DisplayName("사용자 입력값은 중복되지 않은 3자리 숫자, 1~9까지의 숫자만 유효하다")
     @Test
     void validateInputNoExceptionTest() {
-        GameService service = new GameService();
+        GameService service = GameService.getInstance();
 
         assertDoesNotThrow(() -> service.validateGameInput("123"));
         assertDoesNotThrow(() -> service.validateGameInput("456"));
@@ -22,7 +22,7 @@ class GameServiceTest {
     @DisplayName("사용자 입력값이 올바르지 않을 경우 IllegalArgumentException 던진다")
     @Test
     void validateInputTest() {
-        GameService service = new GameService();
+        GameService service = GameService.getInstance();
 
         assertThatThrownBy(() -> service.validateGameInput(null))
             .isInstanceOf(IllegalArgumentException.class)
@@ -50,7 +50,7 @@ class GameServiceTest {
     @DisplayName("입력값과 정답을 비교하여 힌트를 출력한다")
     @Test
     void confirmInput() {
-        GameService service = new GameService();
+        GameService service = GameService.getInstance();
 
         assertThat(service.getHint(new int[] {1, 2, 4}, new int[] {1, 2, 3})).isEqualTo("2스트라이크");
         assertThat(service.getHint(new int[] {3, 2, 1}, new int[] {1, 2, 3})).isEqualTo("2볼 1스트라이크");
