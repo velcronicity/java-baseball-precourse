@@ -22,3 +22,4 @@
 
 * 테스트 커버리지
 * String 을 상수형 변수로
+* InputService 만들어 테스트코드를 위해 mock 처리

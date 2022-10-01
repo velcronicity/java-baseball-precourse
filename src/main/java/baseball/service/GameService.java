@@ -4,8 +4,12 @@ public class GameService {
 
     private final int[] answer;
 
-    public GameService(int[] answer) {
+    private GameService(int[] answer) {
         this.answer = answer;
+    }
+
+    public static GameService newGame(int[] answer) {
+        return new GameService(answer);
     }
 
     public void validateGameInput(String gameInput) {
