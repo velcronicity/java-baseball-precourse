@@ -39,8 +39,12 @@ class GameServiceTest {
         assertThatThrownBy(() -> service.validateGameInput("1234"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("input length is not 3");
-
-        // TODO: 2022/10/01 같은 숫자일 때 검증 추가
+        assertThatThrownBy(() -> service.validateGameInput("111"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("input number has to be different");
+        assertThatThrownBy(() -> service.validateGameInput("112"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("input number has to be different");
     }
 
     @DisplayName("입력값과 정답을 비교하여 힌트를 출력한다")

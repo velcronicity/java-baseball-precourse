@@ -17,6 +17,8 @@ public class GameService {
         for (char eachNumber : inputArray) {
             checkNumber(eachNumber);
         }
+        if (inputArray[0] == inputArray[1] || inputArray[0] == inputArray[2] || inputArray[1] == inputArray[2])
+            throw new IllegalArgumentException("input number has to be different");
     }
 
     // TODO: 2022/10/01 리팩토링 
