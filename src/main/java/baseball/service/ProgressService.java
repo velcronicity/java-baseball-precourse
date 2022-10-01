@@ -5,8 +5,8 @@ import static baseball.constant.GoStop.*;
 import static baseball.constant.Message.*;
 import static camp.nextstep.edu.missionutils.Console.*;
 
-import baseball.constant.GameStatus;
 import baseball.constant.GoStop;
+import baseball.dto.HintStatusDto;
 
 public class ProgressService {
 
@@ -19,33 +19,27 @@ public class ProgressService {
     }
 
     public GoStop start() {
-        GameStatus status = CONTINUE;
-        while (status == CONTINUE) {
+        while (true) {
             String gameInput = readGameInput();
             gameService.validateGameInput(gameInput);
-            status = getGameStatus(toIntArray(gameInput));
+            HintStatusDto hintStatusDto = gameService.getHintAndStatus(toIntArray(gameInput), answer);
+            System.out.println(hintStatusDto.getHintMessage());
+            if (hintStatusDto.getStatus() == DONE) {
+                System.out.println(CORRECT_MESSAGE);
+                break;
+            }
         }
         String goStopInput = readGoStopInput();
         return findGoStop(goStopInput);
     }
 
-    public GameStatus getGameStatus(int[] input) {
-        String hint = gameService.getHint(input, answer);
-        System.out.println(hint);
-        if (ALL_STRIKE_MESSAGE.equals(hint)) {
-            System.out.println(CORRECT_MESSAGE);
-            return DONE;
-        }
-        return CONTINUE;
+    private String readGameInput() {
+        System.out.print(GAME_INPUT_MESSAGE);
+        return readLine();
     }
 
     private String readGoStopInput() {
         System.out.println(GO_STOP_INPUT_MESSAGE);
-        return readLine();
-    }
-
-    private String readGameInput() {
-        System.out.print(GAME_INPUT_MESSAGE);
         return readLine();
     }
 

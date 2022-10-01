@@ -1,6 +1,10 @@
 package baseball.service;
 
+import static baseball.constant.GameStatus.*;
 import static baseball.constant.Message.*;
+
+import baseball.constant.GameStatus;
+import baseball.dto.HintStatusDto;
 
 public class GameService {
 
@@ -24,13 +28,13 @@ public class GameService {
             throw new IllegalArgumentException(INPUT_NUMBER_DUPLICATE_MESSAGE);
     }
 
-    public String getHint(int[] gameInput, int[] answer) {
+    public HintStatusDto getHintAndStatus(int[] gameInput, int[] answer) {
         int strikeCount = getStrikeCount(gameInput, answer);
         int ballCount = getBallCount(gameInput, answer);
         if (strikeCount == 0 && ballCount == 0)
-            return NOTHING_MESSAGE;
-
-        return makeHintMessage(ballCount, strikeCount);
+            return new HintStatusDto(NOTHING_MESSAGE, CONTINUE);
+        GameStatus status = strikeCount == 3 ? DONE : CONTINUE;
+        return new HintStatusDto(makeHintMessage(ballCount, strikeCount), status);
     }
 
     private void checkEachNumber(char[] number) {
@@ -82,4 +86,5 @@ public class GameService {
             return "";
         return String.format("%d%s", count, ballOrStrike);
     }
+
 }

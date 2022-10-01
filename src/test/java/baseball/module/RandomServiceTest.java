@@ -1,4 +1,4 @@
-package baseball.service;
+package baseball.module;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -6,6 +6,8 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import baseball.service.RandomService;
 
 class RandomServiceTest {
 

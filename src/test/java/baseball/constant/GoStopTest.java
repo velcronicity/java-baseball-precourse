@@ -1,4 +1,4 @@
-package baseball.service;
+package baseball.constant;
 
 import static baseball.constant.GoStop.*;
 import static baseball.constant.Message.*;

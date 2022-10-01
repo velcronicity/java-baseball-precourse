@@ -1,4 +1,4 @@
-package baseball;
+package baseball.module;
 
 import static camp.nextstep.edu.missionutils.Randoms.*;
 import static org.assertj.core.api.Assertions.*;
