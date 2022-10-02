@@ -2,12 +2,12 @@ package baseball.service;
 
 import static baseball.constant.GameStatus.*;
 import static baseball.constant.Message.*;
+import static baseball.dto.HintStatusDto.*;
 
 import baseball.constant.GameStatus;
 import baseball.dto.HintStatusDto;
 
 public class GameService {
-
     private static final GameService instance = new GameService();
 
     public static GameService getInstance() {
@@ -15,6 +15,7 @@ public class GameService {
     }
 
     private GameService() {
+        // 게임을 여러번할 때 GameService 는 재생성이 불필요하므로 싱글톤 패턴 적용
     }
 
     public void validateGameInput(String gameInput) {
@@ -31,10 +32,11 @@ public class GameService {
     public HintStatusDto getHintAndStatus(int[] gameInput, int[] answer) {
         int strikeCount = getStrikeCount(gameInput, answer);
         int ballCount = getBallCount(gameInput, answer);
-        if (strikeCount == 0 && ballCount == 0)
-            return new HintStatusDto(NOTHING_MESSAGE, CONTINUE);
-        GameStatus status = strikeCount == 3 ? DONE : CONTINUE;
-        return new HintStatusDto(makeHintMessage(ballCount, strikeCount), status);
+        if (isAllZero(strikeCount, ballCount))
+            return nothing();
+        String hintMessage = makeHintMessage(ballCount, strikeCount);
+        GameStatus status = isDone(strikeCount) ? DONE : CONTINUE;
+        return new HintStatusDto(hintMessage, status);
     }
 
     private void checkEachNumber(char[] number) {
@@ -74,10 +76,18 @@ public class GameService {
         return ballCount;
     }
 
+    private boolean isAllZero(int strikeCount, int ballCount) {
+        return strikeCount == 0 && ballCount == 0;
+    }
+
+    private boolean isDone(int strikeCount) {
+        return strikeCount == 3;
+    }
+
     private String makeHintMessage(int ballCount, int strikeCount) {
         return String.format("%s %s",
-            makeBallStringHintMessage(ballCount, "볼"),
-            makeBallStringHintMessage(strikeCount, "스트라이크"))
+            makeBallStringHintMessage(ballCount, BALL),
+            makeBallStringHintMessage(strikeCount, STRIKE))
             .trim();
     }
 

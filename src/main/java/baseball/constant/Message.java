@@ -1,7 +1,6 @@
 package baseball.constant;
 
 public class Message {
-
     private Message() {
         //do not construct this class
     }
@@ -17,5 +16,8 @@ public class Message {
     public static final String INPUT_LENGTH_ERROR_MESSAGE = "input length is not 3";
     public static final String INPUT_NUMBER_DUPLICATE_MESSAGE = "input number has to be different";
     public static final String INPUT_NOT_VALID_NUMBER_MESSAGE = "input should be number 1 to 9";
+
+    public static final String BALL = "볼";
+    public static final String STRIKE = "스트라이크";
 
 }

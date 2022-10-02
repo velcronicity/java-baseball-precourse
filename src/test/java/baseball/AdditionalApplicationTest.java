@@ -1,5 +1,6 @@
 package baseball;
 
+import static baseball.constant.Message.*;
 import static camp.nextstep.edu.missionutils.test.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -35,6 +36,7 @@ class AdditionalApplicationTest extends NsTest {
         assertSimpleTest(() ->
             assertThatThrownBy(() -> runException("012"))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(INPUT_NOT_VALID_NUMBER_MESSAGE)
         );
     }
 
@@ -43,10 +45,12 @@ class AdditionalApplicationTest extends NsTest {
         assertSimpleTest(() ->
             assertThatThrownBy(() -> runException("abc"))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(INPUT_NOT_VALID_NUMBER_MESSAGE)
         );
         assertSimpleTest(() ->
             assertThatThrownBy(() -> runException("한국어"))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(INPUT_NOT_VALID_NUMBER_MESSAGE)
         );
     }
 

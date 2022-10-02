@@ -9,7 +9,6 @@ import baseball.constant.GoStop;
 import baseball.dto.HintStatusDto;
 
 public class ProgressService {
-
     private final int[] answer;
     private final GameService gameService;
 

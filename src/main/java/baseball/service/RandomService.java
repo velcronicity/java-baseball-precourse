@@ -5,7 +5,6 @@ import static camp.nextstep.edu.missionutils.Randoms.*;
 import java.util.HashSet;
 
 public class RandomService {
-
     public int[] pickNumber() {
         HashSet<Integer> set = new HashSet<>();
         while (set.size() != 3) {

@@ -11,7 +11,8 @@ public class Application {
         RandomService randomService = new RandomService();
         GoStop goStop = GO;
         while (goStop == GO) {
-            ProgressService progressService = new ProgressService(randomService.pickNumber());
+            int[] randomNumbers = randomService.pickNumber();
+            ProgressService progressService = new ProgressService(randomNumbers);
             goStop = progressService.start();
         }
     }
