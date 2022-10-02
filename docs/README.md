@@ -23,3 +23,4 @@
 * 테스트 커버리지
 * String 을 상수형 변수로
 * GameService 싱글톤 패턴
+* ApplicationTests 테스트케이스 추가
